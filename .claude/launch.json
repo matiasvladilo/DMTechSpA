@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dmtech-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/dmtech_preview/serve.py"],
+      "port": 4787
+    }
+  ]
+}
