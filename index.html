@@ -339,6 +339,16 @@ a{text-decoration:none;color:inherit}
 .dm-chip{cursor:pointer;font-size:13.5px;font-weight:400;color:#c4c9cf;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 15px;transition:border-color .2s,background .2s,color .2s}
 .dm-chip:hover{border-color:rgba(255,255,255,.32)}
 .dm-chip-on{color:#0a0c0f;background:linear-gradient(135deg,#f5f6f8,#c6ccd2);border-color:transparent;font-weight:600}
+@media (max-width:600px){
+  .dm-head{gap:12px!important}
+  .dm-nav{gap:18px!important;flex-wrap:nowrap!important}
+  .dm-nav a{font-size:13px!important;white-space:nowrap!important}
+  .dm-wordmark{font-size:16px!important;letter-spacing:.16em!important}
+}
+@media (max-width:400px){
+  .dm-wordmark{display:none!important}
+  .dm-nav{gap:16px!important}
+}
 </style>
 </helmet>
 
@@ -346,12 +356,12 @@ a{text-decoration:none;color:inherit}
 
   <!-- ===== HEADER ===== -->
   <header style="position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(10,11,13,.7);border-bottom:1px solid rgba(255,255,255,.06);">
-    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,44px);height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,44px);height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px;" class="dm-head">
       <a href="#top" style="display:flex;align-items:center;gap:13px;">
         <img src="assets/image-9b49c9cc.png" alt="DMTECH" style="height:30px;width:auto;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,.4));">
-        <span style="font-weight:600;font-size:18px;letter-spacing:.34em;padding-left:2px;color:#f3f5f7;">DMTECH</span>
+        <span class="dm-wordmark" style="font-weight:600;font-size:18px;letter-spacing:.34em;padding-left:2px;color:#f3f5f7;">DMTECH</span>
       </a>
-      <nav style="display:flex;align-items:center;gap:34px;flex-wrap:wrap;">
+      <nav class="dm-nav" style="display:flex;align-items:center;gap:34px;flex-wrap:wrap;">
         <a href="#servicios" style="font-size:14px;color:#a6acb3;transition:color .25s;" style-hover="color:#fff">Servicios</a>
         <a href="#enfoque" style="font-size:14px;color:#a6acb3;transition:color .25s;" style-hover="color:#fff">Enfoque</a>
         <a href="#solicitud" style="font-size:14px;color:#a6acb3;transition:color .25s;" style-hover="color:#fff">Solicitud</a>
