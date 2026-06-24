@@ -7,12 +7,35 @@
 </head>
 <body>
 <div id="dmtech-loader" class="dml-root" role="status" aria-label="Cargando DMTECH">
-  <div class="dml-stage"></div>
+  <div class="dml-stage">
+  <svg class="dml-svg" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path class="dml-line" d="M40 150 L75 55 L125 55 L160 150" stroke="url(#dmlGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <defs>
+      <linearGradient id="dmlGrad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+        <stop offset="0.2" stop-color="#ffffff"/>
+        <stop offset="0.96" stop-color="#9aa2aa"/>
+      </linearGradient>
+    </defs>
+    <circle class="dml-dot dml-dot1" r="6" cx="40"  cy="150" fill="#fff"/>
+    <circle class="dml-dot dml-dot2" r="6" cx="75"  cy="55"  fill="#fff"/>
+    <circle class="dml-dot dml-dot3" r="6" cx="125" cy="55"  fill="#fff"/>
+    <circle class="dml-dot dml-dot4" r="6" cx="160" cy="150" fill="#fff"/>
+  </svg>
+</div>
 </div>
 <style id="dml-style">
 #dmtech-loader.dml-root{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:#0a0b0d;opacity:1;transition:opacity .6s ease}
 #dmtech-loader.dml-hide{opacity:0;pointer-events:none}
 .dml-stage{width:min(60vw,260px);aspect-ratio:1/1;position:relative}
+.dml-svg{width:100%;height:100%;overflow:visible}
+.dml-dot{opacity:0;transform-box:fill-box;transform-origin:center;animation:dmlDotIn .5s cubic-bezier(.16,.84,.44,1) forwards}
+.dml-dot1{animation-delay:.05s}
+.dml-dot2{animation-delay:.15s}
+.dml-dot3{animation-delay:.25s}
+.dml-dot4{animation-delay:.35s}
+@keyframes dmlDotIn{from{opacity:0;transform:scale(.2) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.dml-line{stroke-dasharray:360;stroke-dashoffset:360;opacity:0;animation:dmlDraw .7s cubic-bezier(.16,.84,.44,1) .5s forwards}
+@keyframes dmlDraw{0%{opacity:0;stroke-dashoffset:360}15%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
 </style>
 <script id="dml-script">
 (function(){
@@ -33,7 +56,7 @@
   document.documentElement.style.overflow = 'hidden';
   var FAILSAFE_MS = 2600;
   var killer = setTimeout(remove, FAILSAFE_MS);
-  var EXIT_MS = 800;
+  var EXIT_MS = 1400;
   setTimeout(function(){ clearTimeout(killer); remove(); }, EXIT_MS);
 })();
 </script>
