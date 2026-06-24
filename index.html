@@ -2,10 +2,23 @@
 <html><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v=2"></script>
 
 </head>
 <body>
+<form name="contacto" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="nombre">
+  <input type="text" name="empresa">
+  <input type="text" name="cargo">
+  <input type="email" name="correo">
+  <input type="text" name="telefono">
+  <input type="text" name="tipo">
+  <textarea name="proceso"></textarea>
+  <input type="text" name="sistema">
+  <input type="text" name="urgencia">
+  <textarea name="mensaje"></textarea>
+  <input type="text" name="bot-field">
+</form>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,15 +326,19 @@ a{text-decoration:none;color:inherit}
 @keyframes revFade{from{opacity:0}to{opacity:1}}
 @keyframes floatMark{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 @keyframes glowPulse{0%,100%{opacity:.5}50%{opacity:.85}}
-html.reveal-on [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .75s cubic-bezier(.16,.84,.44,1),transform .75s cubic-bezier(.16,.84,.44,1);will-change:opacity,transform}
-html.reveal-on [data-reveal].is-visible{opacity:1;transform:none}
-html.reveal-on [data-reveal][data-delay="0.08s"]{transition-delay:.08s}
-html.reveal-on [data-reveal][data-delay="0.09s"]{transition-delay:.09s}
-html.reveal-on [data-reveal][data-delay="0.16s"]{transition-delay:.16s}
-html.reveal-on [data-reveal][data-delay="0.18s"]{transition-delay:.18s}
-html.reveal-on [data-reveal][data-delay="0.24s"]{transition-delay:.24s}
-html.reveal-on [data-reveal][data-delay="0.27s"]{transition-delay:.27s}
-@media (prefers-reduced-motion:reduce){html.reveal-on [data-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+[data-reveal]{transition:opacity .75s cubic-bezier(.16,.84,.44,1),transform .75s cubic-bezier(.16,.84,.44,1);will-change:opacity,transform}
+[data-reveal].reveal-pending{opacity:0;transform:translateY(26px)}
+[data-reveal].reveal-pending[data-delay="0.08s"]{transition-delay:.08s}
+[data-reveal].reveal-pending[data-delay="0.09s"]{transition-delay:.09s}
+[data-reveal].reveal-pending[data-delay="0.16s"]{transition-delay:.16s}
+[data-reveal].reveal-pending[data-delay="0.18s"]{transition-delay:.18s}
+[data-reveal].reveal-pending[data-delay="0.24s"]{transition-delay:.24s}
+[data-reveal].reveal-pending[data-delay="0.27s"]{transition-delay:.27s}
+@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important;transition:none!important}}
+.dm-chips{display:flex;flex-wrap:wrap;gap:10px}
+.dm-chip{cursor:pointer;font-size:13.5px;font-weight:400;color:#c4c9cf;background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 15px;transition:border-color .2s,background .2s,color .2s}
+.dm-chip:hover{border-color:rgba(255,255,255,.32)}
+.dm-chip-on{color:#0a0c0f;background:linear-gradient(135deg,#f5f6f8,#c6ccd2);border-color:transparent;font-weight:600}
 </style>
 </helmet>
 
@@ -684,18 +701,17 @@ html.reveal-on [data-reveal][data-delay="0.27s"]{transition-delay:.27s}
             <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#828a92;">Teléfono</span>
             <input value="{{ form.telefono }}" oninput="{{ handlers.telefono }}" placeholder="+56 9 0000 0000" style="background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:13px 15px;font-size:15px;color:#eef0f2;outline:none;transition:border-color .25s, background .25s;" style-focus="border-color:rgba(255,255,255,.42);background:rgba(255,255,255,.04)">
           </label>
-          <label style="display:flex;flex-direction:column;gap:9px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#828a92;">Tipo de solución</span>
-            <select value="{{ form.tipo }}" onchange="{{ handlers.tipo }}" style="background:rgba(255,255,255,.022) url('data:image/svg+xml;utf8,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;12&quot; height=&quot;8&quot; viewBox=&quot;0 0 12 8&quot;&gt;&lt;path d=&quot;M1 1l5 5 5-5&quot; stroke=&quot;%23889099&quot; stroke-width=&quot;1.5&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;') no-repeat right 15px center;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:13px 38px 13px 15px;font-size:15px;color:#eef0f2;outline:none;cursor:pointer;transition:border-color .25s;" style-focus="border-color:rgba(255,255,255,.42)">
-              <option value="" style="background:#14161a;">Selecciona una opción</option>
-              <option value="Plataforma web" style="background:#14161a;">Plataforma web</option>
-              <option value="Sistema interno de gestión" style="background:#14161a;">Sistema interno de gestión</option>
-              <option value="Automatización de procesos" style="background:#14161a;">Automatización de procesos</option>
-              <option value="Integración de sistemas" style="background:#14161a;">Integración de sistemas</option>
-              <option value="Dashboard / reportes" style="background:#14161a;">Dashboard / reportes</option>
-              <option value="Aplicación a medida" style="background:#14161a;">Aplicación a medida</option>
-              <option value="Aún no lo tengo claro" style="background:#14161a;">Aún no lo tengo claro</option>
-            </select>
+          <label style="display:flex;flex-direction:column;gap:9px;grid-column:1/-1;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#828a92;">Tipo de solución <span style="text-transform:none;letter-spacing:0;color:#6b727a;">(puedes elegir varias)</span></span>
+            <div class="dm-chips">
+              <button type="button" class="{{ tipoCls.c0 }}" onclick="{{ tipoHandlers.c0 }}">Plataforma web</button>
+              <button type="button" class="{{ tipoCls.c1 }}" onclick="{{ tipoHandlers.c1 }}">Sistema interno de gestión</button>
+              <button type="button" class="{{ tipoCls.c2 }}" onclick="{{ tipoHandlers.c2 }}">Automatización de procesos</button>
+              <button type="button" class="{{ tipoCls.c3 }}" onclick="{{ tipoHandlers.c3 }}">Integración de sistemas</button>
+              <button type="button" class="{{ tipoCls.c4 }}" onclick="{{ tipoHandlers.c4 }}">Dashboard / reportes</button>
+              <button type="button" class="{{ tipoCls.c5 }}" onclick="{{ tipoHandlers.c5 }}">Aplicación a medida</button>
+              <button type="button" class="{{ tipoCls.c6 }}" onclick="{{ tipoHandlers.c6 }}">Aún no lo tengo claro</button>
+            </div>
           </label>
         </div>
 
@@ -783,7 +799,7 @@ html.reveal-on [data-reveal][data-delay="0.27s"]{transition-delay:.27s}
 <script type="text/x-dc" data-dc-script="">
 class Component extends DCLogic {
   state = {
-    form: { nombre:'', empresa:'', cargo:'', correo:'', telefono:'', tipo:'', proceso:'', sistema:'', urgencia:'', mensaje:'' },
+    form: { nombre:'', empresa:'', cargo:'', correo:'', telefono:'', tipo:[], proceso:'', sistema:'', urgencia:'', mensaje:'' },
     submitted: false,
     error: ''
   };
@@ -805,6 +821,18 @@ class Component extends DCLogic {
         this.setState(s=>({ form: { ...s.form, [k]: v } }));
       };
     });
+    const tipoOptions = ['Plataforma web','Sistema interno de gestión','Automatización de procesos','Integración de sistemas','Dashboard / reportes','Aplicación a medida','Aún no lo tengo claro'];
+    const tipoHandlers = {};
+    const tipoCls = {};
+    tipoOptions.forEach((opt,i)=>{
+      const active = this.state.form.tipo.indexOf(opt) !== -1;
+      tipoCls['c'+i] = 'dm-chip' + (active ? ' dm-chip-on' : '');
+      tipoHandlers['c'+i] = ()=> this.setState(s=>{
+        const cur = s.form.tipo;
+        const next = cur.indexOf(opt) !== -1 ? cur.filter(t=>t!==opt) : cur.concat([opt]);
+        return { form: { ...s.form, tipo: next } };
+      });
+    });
     const submit = (e)=>{
       e.preventDefault();
       const cur = this.state.form;
@@ -812,18 +840,44 @@ class Component extends DCLogic {
         this.setState({ error: 'Por favor completa al menos tu nombre y tu correo.' });
         return;
       }
-      // Punto de integración con backend / email / base de datos:
-      // enviar `this.state.form` a tu endpoint aquí.
-      this.setState({ submitted: true, error: '' });
+      this.setState({ error: 'Enviando…' });
+      const payload = {
+        'form-name': 'contacto',
+        nombre: cur.nombre,
+        empresa: cur.empresa,
+        cargo: cur.cargo,
+        correo: cur.correo,
+        telefono: cur.telefono,
+        tipo: cur.tipo.join(', '),
+        proceso: cur.proceso,
+        sistema: cur.sistema,
+        urgencia: cur.urgencia,
+        mensaje: cur.mensaje
+      };
+      const body = Object.keys(payload).map(function(k){
+        return encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]);
+      }).join('&');
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body
+      }).then((r)=>{
+        if(!r.ok) throw new Error('bad status ' + r.status);
+        this.setState({ submitted: true, error: '' });
+      }).catch(()=>{
+        this.setState({ error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos a contacto@dmtech.com.' });
+      });
     };
     const reset = ()=> this.setState({
       submitted: false,
       error: '',
-      form: { nombre:'', empresa:'', cargo:'', correo:'', telefono:'', tipo:'', proceso:'', sistema:'', urgencia:'', mensaje:'' }
+      form: { nombre:'', empresa:'', cargo:'', correo:'', telefono:'', tipo:[], proceso:'', sistema:'', urgencia:'', mensaje:'' }
     });
     return {
       form: f,
       handlers,
+      tipoHandlers,
+      tipoCls,
       submit,
       reset,
       submitted: this.state.submitted,
@@ -837,32 +891,37 @@ class Component extends DCLogic {
 
 <script>
 (function(){
-  var root = document.documentElement;
-  root.classList.add('reveal-on');
   var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      if(e.isIntersecting){ e.target.classList.remove('reveal-pending'); io.unobserve(e.target); }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }) : null;
-  function show(el){ el.classList.add('is-visible'); }
-  function scan(){
-    document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(function(el){
-      if(el.dataset.rbObserved) return;
-      if(!io){ show(el); return; }
-      el.dataset.rbObserved = '1';
-      var r = el.getBoundingClientRect();
-      if(r.top < window.innerHeight && r.bottom > 0){
-        requestAnimationFrame(function(){ requestAnimationFrame(function(){ show(el); }); });
-      } else {
-        io.observe(el);
-      }
-    });
+
+  function arm(el){
+    if(el.dataset.rbDone) return;
+    el.dataset.rbDone = '1';
+    if(!io) return;
+    var r = el.getBoundingClientRect();
+    if(r.top < window.innerHeight && r.bottom > 0){
+      return;
+    }
+    el.classList.add('reveal-pending');
+    io.observe(el);
   }
+
+  function scan(){
+    document.querySelectorAll('[data-reveal]').forEach(arm);
+  }
+
   function boot(){
     scan();
-    new MutationObserver(scan).observe(document.body, { childList:true, subtree:true });
-    setTimeout(function(){ document.querySelectorAll('[data-reveal]').forEach(show); }, 6000);
+    new MutationObserver(scan).observe(document.documentElement, { childList:true, subtree:true });
+    requestAnimationFrame(scan);
+    window.addEventListener('load', scan);
+    setTimeout(scan, 150);
+    setTimeout(scan, 600);
   }
+
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
