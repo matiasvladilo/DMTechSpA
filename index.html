@@ -9,7 +9,7 @@
 <div id="dmtech-loader" class="dml-root" role="status" aria-label="Cargando DMTECH">
   <div class="dml-stage">
   <svg class="dml-svg" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-    <path class="dml-line" d="M38 160 L62 46 L100 108 L138 46 L162 160" stroke="url(#dmlGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="dml-line" d="M162 160 L138 46 L100 108 L62 46 L38 160 L100 108" stroke="url(#dmlGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <defs>
       <linearGradient id="dmlGrad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
         <stop offset="0.2" stop-color="#ffffff"/>
@@ -36,8 +36,8 @@
 .dml-dot4{animation-delay:.29s}
 .dml-dot5{animation-delay:.37s}
 @keyframes dmlDotIn{from{opacity:0;transform:scale(.2) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.dml-line{stroke-dasharray:385;stroke-dashoffset:385;opacity:0;animation:dmlDraw .8s cubic-bezier(.16,.84,.44,1) .5s forwards}
-@keyframes dmlDraw{0%{opacity:0;stroke-dashoffset:385}15%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
+.dml-line{stroke-dasharray:465;stroke-dashoffset:465;opacity:0;animation:dmlDraw 1s cubic-bezier(.16,.84,.44,1) .5s forwards}
+@keyframes dmlDraw{0%{opacity:0;stroke-dashoffset:465}12%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
 </style>
 <script id="dml-script">
 (function(){
@@ -56,9 +56,9 @@
   if(seen){ if(el.parentNode) el.parentNode.removeChild(el); return; }
   try { sessionStorage.setItem(KEY,'1'); } catch(e) {}
   document.documentElement.style.overflow = 'hidden';
-  var FAILSAFE_MS = 2600;
+  var FAILSAFE_MS = 3000;
   var killer = setTimeout(remove, FAILSAFE_MS);
-  var EXIT_MS = 1400;
+  var EXIT_MS = 1800;
   setTimeout(function(){ clearTimeout(killer); remove(); }, EXIT_MS);
 })();
 </script>
