@@ -9,18 +9,18 @@
 <div id="dmtech-loader" class="dml-root" role="status" aria-label="Cargando DMTECH">
   <div class="dml-stage">
   <svg class="dml-svg" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-    <path class="dml-line" d="M162 160 L138 46 L100 108 L62 46 L38 160 L100 108" stroke="url(#dmlGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="dml-line" d="M196 190 L193 31 L121 100 L17 12 L17 190 L121 100" stroke="url(#dmlGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     <defs>
       <linearGradient id="dmlGrad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
         <stop offset="0.2" stop-color="#ffffff"/>
         <stop offset="0.96" stop-color="#9aa2aa"/>
       </linearGradient>
     </defs>
-    <circle class="dml-dot dml-dot1" r="6" cx="38"  cy="160" fill="#fff"/>
-    <circle class="dml-dot dml-dot2" r="6" cx="62"  cy="46"  fill="#fff"/>
-    <circle class="dml-dot dml-dot3" r="6" cx="100" cy="108" fill="#fff"/>
-    <circle class="dml-dot dml-dot4" r="6" cx="138" cy="46"  fill="#fff"/>
-    <circle class="dml-dot dml-dot5" r="6" cx="162" cy="160" fill="#fff"/>
+    <circle class="dml-dot dml-dot1" r="5.5" cx="17"  cy="12"  fill="#fff"/>
+    <circle class="dml-dot dml-dot2" r="5.5" cx="17"  cy="190" fill="#fff"/>
+    <circle class="dml-dot dml-dot3" r="5.5" cx="121" cy="100" fill="#fff"/>
+    <circle class="dml-dot dml-dot4" r="5.5" cx="193" cy="31"  fill="#fff"/>
+    <circle class="dml-dot dml-dot5" r="5.5" cx="196" cy="190" fill="#fff"/>
   </svg>
 </div>
 </div>
@@ -36,8 +36,8 @@
 .dml-dot4{animation-delay:.29s}
 .dml-dot5{animation-delay:.37s}
 @keyframes dmlDotIn{from{opacity:0;transform:scale(.2) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.dml-line{stroke-dasharray:465;stroke-dashoffset:465;opacity:0;animation:dmlDraw 1s cubic-bezier(.16,.84,.44,1) .5s forwards}
-@keyframes dmlDraw{0%{opacity:0;stroke-dashoffset:465}12%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
+.dml-line{stroke-dasharray:715;stroke-dashoffset:715;opacity:0;animation:dmlDraw 1.15s cubic-bezier(.16,.84,.44,1) .5s forwards}
+@keyframes dmlDraw{0%{opacity:0;stroke-dashoffset:715}10%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
 </style>
 <script id="dml-script">
 (function(){
@@ -56,9 +56,9 @@
   if(seen){ if(el.parentNode) el.parentNode.removeChild(el); return; }
   try { sessionStorage.setItem(KEY,'1'); } catch(e) {}
   document.documentElement.style.overflow = 'hidden';
-  var FAILSAFE_MS = 3000;
+  var FAILSAFE_MS = 3200;
   var killer = setTimeout(remove, FAILSAFE_MS);
-  var EXIT_MS = 1800;
+  var EXIT_MS = 2000;
   setTimeout(function(){ clearTimeout(killer); remove(); }, EXIT_MS);
 })();
 </script>
