@@ -54,22 +54,88 @@
   var KEY = 'dmtechLoaderSeen';
   var el = document.getElementById('dmtech-loader');
   if(!el) return;
-  function remove(){
+  var mark = el.querySelector('.dml-mark');
+  var svg = el.querySelector('.dml-svg');
+
+  function cleanup(){
+    document.documentElement.style.overflow = '';
+    if(document.body) document.body.style.overflow = '';
+  }
+  function removeNow(){
+    if(el && el.parentNode) el.parentNode.removeChild(el);
+    cleanup();
+  }
+  function fadeOut(){
     if(!el || !el.parentNode) return;
     el.classList.add('dml-hide');
-    document.documentElement.style.overflow = '';
-    document.body && (document.body.style.overflow = '');
-    setTimeout(function(){ if(el && el.parentNode) el.parentNode.removeChild(el); }, 650);
+    cleanup();
+    setTimeout(removeNow, 650);
   }
+
   var seen = false;
   try { seen = !!sessionStorage.getItem(KEY); } catch(e) {}
-  if(seen){ if(el.parentNode) el.parentNode.removeChild(el); return; }
+  if(seen){ removeNow(); return; }
   try { sessionStorage.setItem(KEY,'1'); } catch(e) {}
   document.documentElement.style.overflow = 'hidden';
-  var FAILSAFE_MS = 4600;
-  var killer = setTimeout(remove, FAILSAFE_MS);
-  var EXIT_MS = 3700;
-  setTimeout(function(){ clearTimeout(killer); remove(); }, EXIT_MS);
+
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches; } catch(e){}
+
+  var FAILSAFE_MS = 5200;
+  var killer = setTimeout(removeNow, FAILSAFE_MS);
+
+  if(reduce){
+    setTimeout(function(){ clearTimeout(killer); fadeOut(); }, 1200);
+    return;
+  }
+
+  // Logo final del loader vuela hasta el logo real del landing (hero).
+  function findTarget(){
+    var hero = document.querySelector('#top img[src*="image-9b49c9cc"]');
+    if(hero) return hero;
+    var imgs = document.querySelectorAll('img[src*="image-9b49c9cc"]');
+    for(var i=0;i<imgs.length;i++){ if(!el.contains(imgs[i])) return imgs[i]; }
+    return null;
+  }
+
+  var FLY_AT = 3300;
+  setTimeout(function(){
+    var target = findTarget();
+    if(!mark || !target){ clearTimeout(killer); fadeOut(); return; }
+
+    // Fijar el frame actual del logo antes de medir.
+    mark.style.animation = 'none';
+    mark.style.opacity = '1';
+    mark.style.transform = 'none';
+    mark.style.willChange = 'transform';
+    void mark.getBoundingClientRect();
+
+    var from = mark.getBoundingClientRect();
+    var to = target.getBoundingClientRect();
+    if(!from.width || !to.width){ clearTimeout(killer); fadeOut(); return; }
+    var scale = to.height / from.height;
+    var dx = (to.left + to.width/2) - (from.left + from.width/2);
+    var dy = (to.top + to.height/2) - (from.top + from.height/2);
+
+    // Desvanecer esqueleto y revelar la página detrás.
+    if(svg){ svg.style.transition = 'opacity .35s ease'; svg.style.opacity = '0'; }
+    el.style.transition = 'background-color .6s ease';
+    el.style.backgroundColor = 'rgba(10,11,13,0)';
+
+    mark.style.transition = 'transform .85s cubic-bezier(.66,0,.2,1)';
+    mark.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + scale + ')';
+
+    var done = false;
+    function finish(){
+      if(done) return; done = true;
+      clearTimeout(killer);
+      mark.style.transition = 'opacity .25s ease';
+      mark.style.opacity = '0';
+      setTimeout(removeNow, 260);
+    }
+    mark.addEventListener('transitionend', function(ev){ if(ev.propertyName === 'transform') finish(); });
+    setTimeout(finish, 1000);
+  }, FLY_AT);
 })();
 </script>
 <form name="contacto" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
@@ -747,7 +813,7 @@ a{text-decoration:none;color:inherit}
       </div>
 
       <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
-        <div style="border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.03);padding:clamp(40px,6vw,64px);text-align:center;">
+        <div id="solicitud-ok" style="border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.03);padding:clamp(40px,6vw,64px);text-align:center;">
           <div style="width:54px;height:54px;border-radius:50%;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f4f5f7,#c6ccd2);color:#0a0c0f;font-size:26px;font-weight:600;">✓</div>
           <h3 style="margin:0 0 12px;font-size:24px;font-weight:600;color:#f3f5f7;letter-spacing:-.01em;">Solicitud recibida</h3>
           <p style="margin:0 auto;max-width:440px;font-size:15.5px;line-height:1.6;color:#a3a9b0;font-weight:300;">Gracias por escribirnos. Si el proyecto calza con nuestro enfoque, coordinaremos una reunión de diagnóstico.</p>
@@ -941,7 +1007,7 @@ class Component extends DCLogic {
       }).then((r)=>{
         if(!r.ok) throw new Error('bad status ' + r.status);
         this.setState({ submitted: true, error: '' });
-        setTimeout(function(){ var el = document.getElementById('solicitud'); if(el){ el.scrollIntoView({ behavior:'smooth', block:'start' }); } }, 60);
+        setTimeout(function(){ var el = document.getElementById('solicitud-ok') || document.getElementById('solicitud'); if(el){ el.scrollIntoView({ behavior:'smooth', block:'center' }); } }, 80);
       }).catch(()=>{
         this.setState({ error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos a contacto@dmtechsolutions.cl.' });
       });
