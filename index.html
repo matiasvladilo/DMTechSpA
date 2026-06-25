@@ -8,7 +8,7 @@
 <body>
 <div id="dmtech-loader" class="dml-root" role="status" aria-label="Cargando DMTECH">
   <div class="dml-stage">
-    <img class="dml-mark" src="assets/image-9b49c9cc.png" alt="DMTECH">
+    <img class="dml-mark" src="assets/image-9b49c9cc.png?v=3" alt="DMTECH">
     <svg class="dml-svg" viewBox="0 0 200 200" aria-hidden="true">
       <g fill="none" stroke="#34373d" stroke-width="1.4" stroke-linecap="round">
         <line x1="24" y1="22" x2="176" y2="178" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" opacity="0" style="animation:dmlDraw .6s ease 1.6s forwards, dmlLineLife 1.45s ease 1.6s forwards;"></line>
@@ -103,27 +103,34 @@
     var target = findTarget();
     if(!mark || !target){ clearTimeout(killer); fadeOut(); return; }
 
-    // Fijar el frame actual del logo antes de medir.
-    mark.style.animation = 'none';
-    mark.style.opacity = '1';
-    mark.style.transform = 'none';
-    mark.style.willChange = 'transform';
-    void mark.getBoundingClientRect();
-
     var from = mark.getBoundingClientRect();
     var to = target.getBoundingClientRect();
     if(!from.width || !to.width){ clearTimeout(killer); fadeOut(); return; }
-    var scale = to.height / from.height;
-    var dx = (to.left + to.width/2) - (from.left + from.width/2);
-    var dy = (to.top + to.height/2) - (from.top + from.height/2);
+
+    // Fijar el logo en su rect actual y volar por width/height/left/top
+    // (re-rasteriza nítido en cada frame, sin el difuminado de transform:scale).
+    mark.style.animation = 'none';
+    mark.style.opacity = '1';
+    mark.style.transform = 'none';
+    mark.style.position = 'fixed';
+    mark.style.margin = '0';
+    mark.style.left = from.left + 'px';
+    mark.style.top = from.top + 'px';
+    mark.style.width = from.width + 'px';
+    mark.style.height = from.height + 'px';
+    void mark.getBoundingClientRect();
 
     // Desvanecer esqueleto y revelar la página detrás.
     if(svg){ svg.style.transition = 'opacity .35s ease'; svg.style.opacity = '0'; }
     el.style.transition = 'background-color .6s ease';
     el.style.backgroundColor = 'rgba(10,11,13,0)';
 
-    mark.style.transition = 'transform .85s cubic-bezier(.66,0,.2,1)';
-    mark.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + scale + ')';
+    var EASE = 'cubic-bezier(.66,0,.2,1)';
+    mark.style.transition = 'left .85s ' + EASE + ', top .85s ' + EASE + ', width .85s ' + EASE + ', height .85s ' + EASE;
+    mark.style.left = to.left + 'px';
+    mark.style.top = to.top + 'px';
+    mark.style.width = to.width + 'px';
+    mark.style.height = to.height + 'px';
 
     var done = false;
     function finish(){
@@ -133,7 +140,7 @@
       mark.style.opacity = '0';
       setTimeout(removeNow, 260);
     }
-    mark.addEventListener('transitionend', function(ev){ if(ev.propertyName === 'transform') finish(); });
+    mark.addEventListener('transitionend', function(ev){ if(ev.propertyName === 'width' || ev.propertyName === 'left') finish(); });
     setTimeout(finish, 1000);
   }, FLY_AT);
 })();
@@ -491,7 +498,7 @@ a{text-decoration:none;color:inherit}
   <header style="position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(10,11,13,.7);border-bottom:1px solid rgba(255,255,255,.06);">
     <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,44px);height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px;" class="dm-head">
       <a href="#top" style="display:flex;align-items:center;gap:13px;">
-        <img src="assets/image-9b49c9cc.png" alt="DMTECH" style="height:30px;width:auto;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,.4));">
+        <img src="assets/image-9b49c9cc.png?v=3" alt="DMTECH" style="height:30px;width:auto;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,.4));">
         <span class="dm-wordmark" style="font-weight:600;font-size:18px;letter-spacing:.34em;padding-left:2px;color:#f3f5f7;">DMTECH</span>
       </a>
       <nav class="dm-nav" style="display:flex;align-items:center;gap:34px;flex-wrap:wrap;">
@@ -509,7 +516,7 @@ a{text-decoration:none;color:inherit}
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-62%);width:min(720px,90vw);height:min(720px,90vw);border-radius:50%;background:radial-gradient(circle, rgba(80,114,138,.30), transparent 62%);filter:blur(24px);pointer-events:none;animation:glowPulse 8s ease-in-out infinite;"></div>
 
     <div style="position:relative;max-width:1000px;margin:0 auto;padding:clamp(72px,11vh,120px) clamp(20px,5vw,44px) clamp(64px,9vh,104px);display:flex;flex-direction:column;align-items:center;text-align:center;">
-      <img src="assets/image-9b49c9cc.png" alt="" style="height:clamp(96px,12vw,148px);margin-bottom:clamp(36px,5vh,52px);filter:drop-shadow(0 16px 50px rgba(150,180,200,.22));animation:floatMark 9s ease-in-out infinite;">
+      <img src="assets/image-9b49c9cc.png?v=3" alt="" style="height:clamp(96px,12vw,148px);margin-bottom:clamp(36px,5vh,52px);filter:drop-shadow(0 16px 50px rgba(150,180,200,.22));animation:floatMark 9s ease-in-out infinite;">
       <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:#8593a0;margin-bottom:28px;" data-reveal="" data-delay="0s">Software Solutions</div>
       <h1 style="margin:0;max-width:900px;font-weight:600;font-size:clamp(38px,6.2vw,72px);line-height:1.05;letter-spacing:-.03em;background:linear-gradient(120deg,#ffffff 20%,#9aa2aa 96%);-webkit-background-clip:text;background-clip:text;color:transparent;" data-reveal="" data-delay="0.08s">Software a medida para operar mejor.</h1>
       <p style="margin:30px 0 0;max-width:560px;font-size:clamp(16px,1.7vw,19px);line-height:1.6;font-weight:300;color:#a9afb6;" data-reveal="" data-delay="0.16s">Sistemas digitales, automatizaciones e integraciones diseñados según la operación de cada empresa.</p>
@@ -908,7 +915,7 @@ a{text-decoration:none;color:inherit}
     <div style="max-width:1240px;margin:0 auto;padding:clamp(50px,7vh,76px) clamp(20px,5vw,44px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:44px;">
       <div style="max-width:340px;">
         <div style="display:flex;align-items:center;gap:13px;margin-bottom:18px;">
-          <img src="assets/image-9b49c9cc.png" alt="DMTECH" style="height:30px;width:auto;display:block;">
+          <img src="assets/image-9b49c9cc.png?v=3" alt="DMTECH" style="height:30px;width:auto;display:block;">
           <div style="display:flex;flex-direction:column;line-height:1;">
             <span style="font-weight:600;font-size:17px;letter-spacing:.32em;color:#f3f5f7;">DMTECH</span>
             <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.26em;color:#71787f;margin-top:5px;">SOFTWARE SOLUTIONS</span>
